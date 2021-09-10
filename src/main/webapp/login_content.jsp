@@ -1,3 +1,8 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+	import="com.tommy.dbmodels.*
+            , com.tommy.helpers.*
+            , java.sql.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!-- Page container -->
 <div class="page-container">
@@ -70,14 +75,15 @@
 </div>
 <!-- /page container -->
 
-<script type="text/javascript">
-	$(function() {
-		var errorMessage = '<%=request.getSession().getAttribute("errorMessage")%>';
-		new PNotify({
-	        title: 'Login Fail!',
-	        text: errorMessage,
-	        addclass: 'bg-danger'
-	    });
-	});
-</script>
-
+<c:if test="${sessionScope.errorMessage != null}">
+	<script type="text/javascript">
+		$(function() {
+			var errorMessage = '<%=request.getSession().getAttribute("errorMessage")%>';
+			new PNotify({
+		        title: 'Login Fail!',
+		        text: errorMessage,
+		        addclass: 'bg-danger'
+		    });
+		});
+	</script>
+</c:if>

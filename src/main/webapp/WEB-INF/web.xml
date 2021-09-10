@@ -32,7 +32,7 @@
 	</context-param>
 	<context-param>
 		<param-name>hostURL</param-name>
-		<param-value>http://localhost:8083</param-value>
+		<param-value>http://localhost:8085</param-value>
 	</context-param>
 
 	<error-page>
