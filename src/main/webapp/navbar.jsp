@@ -1,4 +1,8 @@
-
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+	import="com.tommy.dbmodels.*
+            , com.tommy.helpers.*
+            , java.sql.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="navbar navbar-inverse bg-slate-700 navbar-component"
 	style="position: relative; z-index: 27;">
 	<div class="navbar-header">
@@ -26,11 +30,19 @@
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#"><i class="icon-file-locked position-left"></i>
-					Logout</a></li>
-			<p class="navbar-text">
-				Signed in as <a href="#" class="navbar-link">Eugene</a>
-			</p>
+			<c:choose>
+				<c:when test="${sessionScope.authorized_user != null}">
+					<li><a href="#"><i class="icon-exit position-left"></i>
+							Logout</a></li>
+					<p class="navbar-text">
+						Signed in as <a href="#" class="navbar-link">Eugene</a>
+					</p>
+				</c:when>
+				<c:otherwise>
+					<li><a href="index.jsp"><i class="icon-enter position-left"></i>
+							Login</a></li>
+				</c:otherwise>
+			</c:choose>
 		</ul>
 	</div>
 </div>

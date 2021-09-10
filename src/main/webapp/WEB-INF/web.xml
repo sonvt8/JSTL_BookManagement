@@ -28,7 +28,7 @@
 	</context-param>
 	<context-param>
 		<param-name>weblink</param-name>
-		<param-value>https://www.school.com</param-value>
+		<param-value>https://github.com/sonvt8/JSTL_BookManagement.git</param-value>
 	</context-param>
 	<context-param>
 		<param-name>hostURL</param-name>
