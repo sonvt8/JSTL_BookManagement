@@ -36,12 +36,24 @@
 	</context-param>
 
 	<error-page>
+		<error-code>403</error-code>
+		<location>/error_403.jsp</location>
+	</error-page>
+	<error-page>
 		<error-code>404</error-code>
 		<location>/error_404.jsp</location>
 	</error-page>
 	<error-page>
+		<error-code>405</error-code>
+		<location>/error_405.jsp</location>
+	</error-page>
+	<error-page>
 		<error-code>500</error-code>
 		<location>/error_500.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>503</error-code>
+		<location>/error_503.jsp</location>
 	</error-page>
 
 

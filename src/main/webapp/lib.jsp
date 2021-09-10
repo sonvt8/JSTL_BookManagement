@@ -26,12 +26,17 @@
 <!-- /core JS files -->
 
 <!-- Theme JS files -->
+<script type="text/javascript"
+	src="assets/js/plugins/notifications/pnotify.min.js"></script>
+<script type="text/javascript"
+	src="assets/js/pages/components_notifications_pnotify.js"></script>
 
 <!-- Multiselect -->
 <script type="text/javascript"
 	src="assets/js/plugins/forms/selects/bootstrap_select.min.js"></script>
 <script type="text/javascript"
 	src="assets/js/pages/form_bootstrap_select.js"></script>
+
 <!-- Validation form -->
 <script type="text/javascript"
 	src="assets/js/plugins/forms/validation/validate.min.js"></script>
@@ -51,4 +56,3 @@
 
 <script type="text/javascript" src="assets/js/core/app.js"></script>
 <script type="text/javascript" src="assets/js/plugins/ui/ripple.min.js"></script>
-<!-- /theme JS files -->
