@@ -12,7 +12,7 @@
 <body class="login-container">
 	<jsp:include page="navbar.jsp" />
 	<div class="page">
-		<jsp:include page="maintenance.jsp" />
+		<jsp:include page="errorDisplay.jsp" />
 		<jsp:include page="footer.jsp" />
 	</div>
 </body>

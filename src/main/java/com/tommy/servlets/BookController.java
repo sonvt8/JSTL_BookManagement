@@ -4,18 +4,20 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 
 import com.tommy.dbmodels.DBManager;
-import com.tommy.helpers.DBWorldQueries;
+import com.tommy.helpers.DBBookQueries;
 import com.tommy.models.Book;
 
 @WebServlet(name = "BookController", value = "/bookcontroller.do")
+@MultipartConfig(
+        fileSizeThreshold = 1024*1024*1,    // 1MB
+        maxFileSize = 1024 * 1024 * 10,     // 10MB
+        maxRequestSize = 1024 * 1024 * 100 // 100MB
+)
 public class BookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -76,7 +78,7 @@ public class BookController extends HttpServlet {
                         throw new IOException("Could not connect to database and open connection");
                 }
 
-                String query = DBWorldQueries.getBooks();
+                String query = DBBookQueries.getBooks();
 
                 ArrayList<Book> listBooks = new ArrayList<Book>();
 
@@ -91,7 +93,7 @@ public class BookController extends HttpServlet {
                     b.setAuthor(rs.getString("Author"));
                     b.setPrice(rs.getString("Price"));
                     b.setQuantity(rs.getInt("Quantity"));
-                    b.setReleased(rs.getDate("Released"));
+                    b.setReleased(rs.getString("Released"));
                     b.setCateId(rs.getInt("CategoryId"));
                     b.setImageUrl(rs.getString("ImageUrl"));
                     b.setDescription(rs.getString("Description"));
@@ -113,7 +115,70 @@ public class BookController extends HttpServlet {
         }
 	}
 
-	private void addBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void addBook(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Part filePart = request.getPart("photo");
+		
+        String title = request.getParameter("title");
+        String author = request.getParameter("author");
+        String released = request.getParameter("date_iso");
+        String quantity = request.getParameter("digits");
+        String category = request.getParameter("cateName");
+        String price = request.getParameter("numbers");
+        String fileName = filePart.getSubmittedFileName();
+        String description = request.getParameter("description");
+
+        try {
+            Book b = new Book();
+            b.setTitle(title);
+            b.setAuthor(author);
+            b.setPrice(price);
+            b.setQuantity(Integer.parseInt(quantity));
+            b.setDescription(description);
+            b.setReleased(released);
+            b.setCateId(getCategoryId(category));
+            b.setImageUrl(fileName);
+
+            if (getServletConfig().getServletContext().getAttribute("BookDBManager") != null)
+            {
+                DBManager dbm = (DBManager)getServletConfig().getServletContext().getAttribute("BookDBManager");
+
+                try {
+                    if (!dbm.isConnected())
+                    {
+                        if (!dbm.openConnection())
+                            throw new IOException("Could not connect to database and open connection");
+                    }
+
+                    String query = DBBookQueries.insertData(b);
+
+                    dbm.ExecuteNonQuery(query);
+                    
+                    //Upload Image
+                    for (Part part: request.getParts()) {
+                        part.write(getServletContext().getInitParameter("uploadPath") + fileName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new IOException("Query could not be executed to insert a new book");
+                }
+
+                HttpSession s = request.getSession();
+                s.setAttribute("listBooks", null);
+
+                response.sendRedirect(getServletContext().getInitParameter("hostURL") +
+                        getServletContext().getContextPath() + "/index.jsp");
+            }
+            else
+            {
+                response.sendRedirect(getServletContext().getInitParameter("hostURL")
+                        + getServletContext().getContextPath() + "login.jsp");
+            }
+        } catch (Exception ex)
+        {
+            response.sendRedirect(getServletContext().getInitParameter("hostURL")
+                    + getServletContext().getContextPath() + "/errorHandler.jsp");
+        }
 	}
 
 	private void loadBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -124,4 +189,22 @@ public class BookController extends HttpServlet {
 
 	private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	}
+	
+	private int getCategoryId(String cateName) {
+		if(cateName.equalsIgnoreCase("Action and Adventure")) {
+			return 1;
+		}
+		if(cateName.equalsIgnoreCase("Classics")) {
+			return 2;
+		}
+		if(cateName.equalsIgnoreCase("Comic Book or Graphic Novel")) {
+			return 3;
+		}
+		return 4;
+	}
+	
+//	private Date convertStrToDate(String d) throws ParseException {
+//		Date date = (Date) new SimpleDateFormat("yyyy/MM/dd").parse(d);
+//		return date;
+//	}
 }

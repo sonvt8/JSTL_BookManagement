@@ -1,7 +1,5 @@
 package com.tommy.models;
 
-import java.util.Date;
-
 public class Book {
 	private int id;
 	private String title;
@@ -9,7 +7,7 @@ public class Book {
 	private String price;
 	private int quantity;
 	private String description;
-	private Date released;
+	private String released;
 	private int cateId;
 	private String imageUrl;
 
@@ -64,11 +62,11 @@ public class Book {
 		this.description = description;
 	}
 
-	public Date getReleased() {
+	public String getReleased() {
 		return released;
 	}
 
-	public void setReleased(Date released) {
+	public void setReleased(String released) {
 		this.released = released;
 	}
 

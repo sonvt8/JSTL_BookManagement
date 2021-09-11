@@ -1,7 +1,7 @@
 package com.tommy.servlets;
 
 import com.tommy.dbmodels.DBManager;
-import com.tommy.helpers.DBWorldQueries;
+import com.tommy.helpers.DBBookQueries;
 import com.tommy.models.WebUser;
 
 import javax.servlet.*;
@@ -41,7 +41,7 @@ public class LoginUser extends HttpServlet {
 							if (!dbm.openConnection())
 								throw new IOException("Could not connect to database and open connection");
 						}
-						String query = DBWorldQueries.getWebUserByUsernameAndPassword(uid, pwd);
+						String query = DBBookQueries.getWebUserByUsernameAndPassword(uid, pwd);
 						ResultSet rs = dbm.ExecuteResultSet(query);
 						while (rs.next()) {
 							wu = new WebUser();
@@ -70,7 +70,7 @@ public class LoginUser extends HttpServlet {
 						}
 					} catch (Exception ex) {
 						response.sendRedirect(getServletContext().getInitParameter("hostURL")
-								+ getServletContext().getContextPath() + "/welcome.jsp");
+								+ getServletContext().getContextPath() + "/errorHandler.jsp");
 						return;
 					}
 				} else {

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.tommy.dbmodels.DBManager;
-import com.tommy.helpers.DBWorldQueries;
+import com.tommy.helpers.DBBookQueries;
 import com.tommy.models.WebUser;
 
 @WebServlet(name = "GetCategoryName", value = "/getcategoryname.do")
@@ -47,7 +47,7 @@ public class GetCategoryName extends HttpServlet {
                         throw new IOException("Could not connect to database and open connection");
                 }
 
-                String query = DBWorldQueries.getCategoryName();
+                String query = DBBookQueries.getCategoryName();
 
                 ArrayList<String> cateName = new ArrayList<String>();
 

@@ -34,6 +34,10 @@
 		<param-name>hostURL</param-name>
 		<param-value>http://localhost:8085</param-value>
 	</context-param>
+	<context-param>
+		<param-name>uploadPath</param-name>
+		<param-value>C:\Users\Tommy\Desktop\img\</param-value>
+	</context-param>
 
 	<error-page>
 		<error-code>403</error-code>

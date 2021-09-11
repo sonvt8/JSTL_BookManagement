@@ -11,8 +11,8 @@
 
 				<!-- Error title -->
 				<div class="text-center content-group">
-					<h1 class="error-title">WAITING...</h1>
-					<h5>COMING SOON.....</h5>
+					<h1 class="error-title">Oops!!!...</h1>
+					<h5>Something wrong happens.....</h5>
 				</div>
 				<!-- /error title -->
 
