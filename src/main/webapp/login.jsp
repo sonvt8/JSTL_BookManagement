@@ -16,7 +16,6 @@
 <jsp:include page="lib.jsp" />
 </head>
 <body class="login-container">
-	d
 	<jsp:include page="navbar.jsp" />
 	<div class="page">
 		<!-- Page container -->

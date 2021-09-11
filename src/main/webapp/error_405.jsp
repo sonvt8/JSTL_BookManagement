@@ -31,12 +31,7 @@
 					<!-- Error title -->
 					<div class="text-center content-group">
 						<h1 class="error-title">405</h1>
-						<h5>
-							<c:if test="${ex != null}">
-			                    ERROR: ${ex}<br>
-			                    ERROR Msg: ${ex.message}<br>
-							</c:if>
-						</h5>
+						<h5>Oops, an error has occurred. Not allowed!</h5>
 					</div>
 					<!-- /error title -->
 

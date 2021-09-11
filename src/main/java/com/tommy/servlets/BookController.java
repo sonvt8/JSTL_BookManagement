@@ -63,7 +63,54 @@ public class BookController extends HttpServlet {
 	}
 
 	private void listBooks(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("List all Books");
+        HttpSession s = request.getSession();
+
+        if (getServletConfig().getServletContext().getAttribute("BookDBManager") != null)
+        {
+            DBManager dbm = (DBManager)getServletConfig().getServletContext().getAttribute("BookDBManager");
+
+            try {
+                if (!dbm.isConnected())
+                {
+                    if (!dbm.openConnection())
+                        throw new IOException("Could not connect to database and open connection");
+                }
+
+                String query = DBWorldQueries.getBooks();
+
+                ArrayList<Book> listBooks = new ArrayList<Book>();
+
+                ResultSet rs = dbm.ExecuteResultSet(query);
+
+                while (rs.next())
+                {
+                	Book b = new Book();
+                    
+                    b.setId(rs.getInt("Id"));
+                    b.setTitle(rs.getString("Title"));
+                    b.setAuthor(rs.getString("Author"));
+                    b.setPrice(rs.getString("Price"));
+                    b.setQuantity(rs.getInt("Quantity"));
+                    b.setReleased(rs.getDate("Released"));
+                    b.setCateId(rs.getInt("CategoryId"));
+                    b.setImageUrl(rs.getString("ImageUrl"));
+                    b.setDescription(rs.getString("Description"));
+                    listBooks.add(b);
+                }
+                s.setAttribute("listBooks", listBooks);
+            }
+            catch (Exception ex)
+            {
+                throw new IOException("Query could not be executed to get all books");
+            }
+            response.sendRedirect(getServletContext().getInitParameter("hostURL")
+                    + getServletContext().getContextPath() +"/index.jsp");
+        }
+        else
+        {
+            response.sendRedirect(getServletContext().getInitParameter("hostURL")
+                    + getServletContext().getContextPath() + "/login.jsp");
+        }
 	}
 
 	private void addBook(HttpServletRequest request, HttpServletResponse response) throws IOException {

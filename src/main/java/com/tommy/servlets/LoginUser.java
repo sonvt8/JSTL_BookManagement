@@ -97,10 +97,12 @@ public class LoginUser extends HttpServlet {
 
         }
 
-        String target = (request.getParameter("dest")==null || request.getParameter("dest")=="")
-                ? "Protected/index.jsp"
-                : request.getParameter("dest");
+		/*
+		 * String target = (request.getParameter("dest")==null ||
+		 * request.getParameter("dest")=="") ? "index.jsp" :
+		 * request.getParameter("dest");
+		 */
 
-        response.sendRedirect(target);
+        response.sendRedirect("index.jsp");
     }
 }

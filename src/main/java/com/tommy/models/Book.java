@@ -6,7 +6,7 @@ public class Book {
 	private int id;
 	private String title;
 	private String author;
-	private double price;
+	private String price;
 	private int quantity;
 	private String description;
 	private Date released;
@@ -40,11 +40,11 @@ public class Book {
 		this.author = author;
 	}
 
-	public double getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
