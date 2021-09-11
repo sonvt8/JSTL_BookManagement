@@ -24,7 +24,7 @@
 				<jsp:include page="login_content.jsp" />
 			</c:when>
 			<c:otherwise>
-				<jsp:include page="index_content.jsp" />
+				<jsp:include page="Protected/index_content.jsp" />
 			</c:otherwise>
 		</c:choose>
 		<jsp:include page="footer.jsp" />

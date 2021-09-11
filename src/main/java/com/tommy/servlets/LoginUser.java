@@ -24,11 +24,11 @@ public class LoginUser extends HttpServlet {
             String uid = "";
             String pwd = "";
 
-            if (request.getParameter("uid") != null)
-                uid = request.getParameter("uid");
+            if (request.getParameter("username") != null)
+                uid = request.getParameter("username");
 
-            if (request.getParameter("pwd") != null)
-                pwd = request.getParameter("pwd");
+            if (request.getParameter("password") != null)
+                pwd = request.getParameter("password");
 
             if ((wu == null || wu.getUid().equals("")  || wu.getAuthLevel() < 1 || wu.getUid() == null)
                     && (uid != "" && pwd != "")) {
@@ -89,7 +89,7 @@ public class LoginUser extends HttpServlet {
 
             if (wu == null || wu.getUid().equals("") || wu.getUid() == null || wu.getAuthLevel() < 1)
             {
-            	s.setAttribute("errorMessage", "Incorrect username or password.");
+            	s.setAttribute("loginFail", "Incorrect username or password.");
             	response.sendRedirect(getServletContext().getInitParameter("hostURL")
                         + getServletContext().getContextPath() + "/index.jsp");
             	return;

@@ -53,6 +53,7 @@
 										placeholder="YYYY/MM/DD or any other ISO date format">
 								</div>
 
+
 								<label class="control-label col-md-2 col-md-offset-1">Quantity<span
 									class="text-danger">*</span></label>
 								<div class="col-md-2">
@@ -76,7 +77,7 @@
 								<label class="control-label col-md-2 col-md-offset-1">Price<span
 									class="text-danger">*</span></label>
 								<div class="col-md-2">
-									<input type="text" name="price" class="form-control"
+									<input type="text" name="numbers" class="form-control"
 										required="required" placeholder="Enter decimal number only">
 								</div>
 							</div>

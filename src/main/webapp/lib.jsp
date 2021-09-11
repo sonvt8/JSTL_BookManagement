@@ -54,5 +54,9 @@
 	src="assets/js/plugins/forms/styling/uniform.min.js"></script>
 <script type="text/javascript" src="assets/js/pages/form_validation.js"></script>
 
+<!-- Login form -->
+<script type="text/javascript" src="assets/js/pages/login_validation.js"></script>
+
+<!-- General -->
 <script type="text/javascript" src="assets/js/core/app.js"></script>
 <script type="text/javascript" src="assets/js/plugins/ui/ripple.min.js"></script>

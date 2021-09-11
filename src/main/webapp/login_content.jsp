@@ -14,7 +14,7 @@
 		<div class="content-wrapper">
 
 			<!-- Simple login form -->
-			<form method="post" action="loginUser.do">
+			<form method="post" action="loginUser.do" class="form-validate">
 				<div class="panel panel-body login-form">
 					<div class="text-center">
 						<div class="icon-object border-slate-300 text-slate-300">
@@ -27,16 +27,16 @@
 					</div>
 
 					<div class="form-group has-feedback has-feedback-left">
-						<input name="uid" type="text" required="required"
-							class="form-control" placeholder="username">
+						<input type="text" class="form-control" placeholder="Username"
+							name="username" required="required">
 						<div class="form-control-feedback">
 							<i class="icon-user text-muted"></i>
 						</div>
 					</div>
 
 					<div class="form-group has-feedback has-feedback-left">
-						<input name="pwd" type="password" required="required"
-							class="form-control" placeholder="password">
+						<input type="password" class="form-control" placeholder="Password"
+							name="password" required="required">
 						<div class="form-control-feedback">
 							<i class="icon-lock2 text-muted"></i>
 						</div>
@@ -75,15 +75,16 @@
 </div>
 <!-- /page container -->
 
-<c:if test="${sessionScope.errorMessage != null}">
+<c:if test="${sessionScope.loginFail != null}">
 	<script type="text/javascript">
 		$(function() {
-			var errorMessage = '<%=request.getSession().getAttribute("errorMessage")%>';
+			var errorMessage = '<%=request.getSession().getAttribute("loginFail")%>';
 			new PNotify({
-		        title: 'Login Fail!',
-		        text: errorMessage,
-		        addclass: 'bg-danger'
-		    });
+				title : 'Login Fail!',
+				text : errorMessage,
+				addclass : 'bg-danger'
+			});
 		});
+		<%session.invalidate();%>
 	</script>
 </c:if>
