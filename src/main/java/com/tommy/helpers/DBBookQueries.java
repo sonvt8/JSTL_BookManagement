@@ -28,4 +28,8 @@ public class DBBookQueries {
                 , b.getCateId()
     			);
     }
+    
+    public static String deleteBook(String bookId) {
+        return "delete from Books where id=" + bookId;
+    }
 }

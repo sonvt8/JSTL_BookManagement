@@ -10,15 +10,30 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>List Books</title>
+<title>Book Management Admin Page</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
 <jsp:include page="lib.jsp" />
+<!-- /theme JS files -->
 </head>
 <body class="login-container">
 	<jsp:include page="navbar.jsp" />
 	<div class="page">
+		<c:if test="${sessionScope.deleteOk != null}">
+			<script type="text/javascript">
+				alert('OK');
+				$(function() {
+				var successMessage = '<%=request.getSession().getAttribute("deleteOk")%>';
+					new PNotify({
+						title : 'Success Delete',
+						text : successMessage,
+						addclass : 'bg-success'
+					});
+				});
+				<%request.getSession().removeAttribute("deleteOk");%>
+			</script>
+		</c:if>
 		<c:if test="${sessionScope.authorized_user == null}">
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp" />
@@ -31,7 +46,8 @@
 		<div class="page-header">
 			<div class="page-header-content">
 				<div class="page-title">
-					<button onclick="window.location.href='${initParam.hostURL}${pageContext.request.contextPath}/add_book.jsp';"
+					<button
+						onclick="window.location.href='${initParam.hostURL}${pageContext.request.contextPath}/add_book.jsp';"
 						type="button" class="btn bg-teal-400 btn-labeled">
 						<b><i class="icon-book"></i></b>New Book
 					</button>
@@ -86,9 +102,9 @@
 								</a>
 
 									<ul class="dropdown-menu dropdown-menu-right">
-										<li><a href="${updateLink}"><i class="icon-pencil7"></i>
+										<li><a href="${updateBook}"><i class="icon-pencil7"></i>
 												Edit</a></li>
-										<li><a href="${deleteLink}"><i class="icon-trash"
+										<li><a href="${deleteBook}"><i class="icon-trash"
 												onclick="if(!confirm('Are you sure you want to delete this city?')) return false;"></i>
 												Delete</a></li>
 									</ul></li>
@@ -99,6 +115,18 @@
 			</tbody>
 		</table>
 		<jsp:include page="footer.jsp" />
+		<script type="text/javascript">
+				alert('OK');
+				$(function() {
+				var successMessage = '<%=request.getSession().getAttribute("deleteOk")%>';
+				new PNotify({
+					title : 'Success Delete',
+					text : successMessage,
+					addclass : 'bg-success',
+					show_stack_bottom_right('danger')
+				});
+			});	
+		</script>
 	</div>
 </body>
 </html>

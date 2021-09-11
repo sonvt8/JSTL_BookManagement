@@ -99,7 +99,7 @@
 							addclass : 'bg-danger'
 						});
 					});
-				<%session.invalidate();%>
+				<%request.getSession().removeAttribute("loginFail");%>
 			</script>
 		</c:if>
 	</div>
