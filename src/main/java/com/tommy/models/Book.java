@@ -4,16 +4,18 @@ import java.util.Date;
 
 public class Book {
 	private int id;
-    private String title;
-    private String author;
-    private double price;
-    private int quantity;
-    private String description;
-    private Date released;
-    private int cateId;
+	private String title;
+	private String author;
+	private double price;
+	private int quantity;
+	private String description;
+	private Date released;
+	private int cateId;
+	private String imageUrl;
 
-    public Book() { }
-    
+	public Book() {
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -76,5 +78,26 @@ public class Book {
 
 	public void setCateId(int cateId) {
 		this.cateId = cateId;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getCategoryName() {
+		switch (this.getCateId()) {
+		case 1:
+			return "Action and Adventure";
+		case 2:
+			return "Classics";
+		case 3:
+			return "Comic Book or Graphic Novel";
+		default:
+			return "Fantasy";
+		}
 	}
 }

@@ -27,7 +27,7 @@ public class AuthorizationFilter implements Filter {
 
         HttpSession s =  req.getSession();
         
-        String dest = req.getServletContext().getContextPath() + "/index.jsp";
+        String dest = req.getServletContext().getContextPath() + "/login.jsp";
 
         if (s.getAttribute("authorized_user") == null) {
             res.sendRedirect(dest);

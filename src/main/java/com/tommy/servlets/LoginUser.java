@@ -91,12 +91,16 @@ public class LoginUser extends HttpServlet {
             {
             	s.setAttribute("loginFail", "Incorrect username or password.");
             	response.sendRedirect(getServletContext().getInitParameter("hostURL")
-                        + getServletContext().getContextPath() + "/index.jsp");
+                        + getServletContext().getContextPath() + "/login.jsp");
             	return;
             }
 
         }
 
-        response.sendRedirect("index.jsp");
+        String target = (request.getParameter("dest")==null || request.getParameter("dest")=="")
+                ? "Protected/index.jsp"
+                : request.getParameter("dest");
+
+        response.sendRedirect(target);
     }
 }
