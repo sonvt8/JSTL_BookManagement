@@ -32,7 +32,7 @@
 		<ul class="nav navbar-nav navbar-right">
 			<c:choose>
 				<c:when test="${sessionScope.authorized_user != null}">
-					<li><a href="#"><i class="icon-exit position-left"></i>
+					<li><a href="signoutuser.do"><i class="icon-exit position-left"></i>
 							Logout</a></li>
 					<p class="navbar-text">
 						Signed in as <a href="#" class="navbar-link">Eugene</a>
