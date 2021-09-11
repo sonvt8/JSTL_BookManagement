@@ -89,7 +89,7 @@ public class LoginUser extends HttpServlet {
 
             if (wu == null || wu.getUid().equals("") || wu.getUid() == null || wu.getAuthLevel() < 1)
             {
-            	s.setAttribute("errorMessage", "Wrong username or password");
+            	s.setAttribute("errorMessage", "Incorrect username or password.");
             	response.sendRedirect(getServletContext().getInitParameter("hostURL")
                         + getServletContext().getContextPath() + "/index.jsp");
             	return;
@@ -97,10 +97,6 @@ public class LoginUser extends HttpServlet {
 
         }
 
-        String target = (request.getParameter("dest")==null || request.getParameter("dest")=="")
-                ? "index.jsp"
-                : request.getParameter("dest");
-
-        response.sendRedirect(target);
+        response.sendRedirect("index.jsp");
     }
 }
