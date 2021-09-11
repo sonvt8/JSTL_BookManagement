@@ -27,6 +27,18 @@
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/bookcontroller.do" />
 		</c:if>
+		<!-- Page header -->
+		<div class="page-header">
+			<div class="page-header-content">
+				<div class="page-title">
+					<button onclick="window.location.href='${initParam.hostURL}${pageContext.request.contextPath}/add_book.jsp';"
+						type="button" class="btn bg-teal-400 btn-labeled">
+						<b><i class="icon-book"></i></b>New Book
+					</button>
+				</div>
+			</div>
+		</div>
+		<!-- /page header -->
 
 		<table class="table table-togglable table-hover">
 			<thead>
@@ -35,7 +47,7 @@
 					<th style="width: 10px;">Title</th>
 					<th style="width: 10px;">Author</th>
 					<th style="width: 10px;">Category</th>
-					<th style="width: 5px;">Price</th>
+					<th style="width: 5px;">Price($)</th>
 					<th style="width: 5px;">Quantity</th>
 					<th style="width: 10px;">Released</th>
 					<th class="text-center" style="width: 50px;">Photo</th>

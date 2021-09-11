@@ -9,4 +9,8 @@ public class DBWorldQueries {
     public static String getBooks() {
         return "select * from Books order by id DESC";
     }
+    
+    public static String getCategoryName() {
+        return "select name from Categories";
+    }
 }

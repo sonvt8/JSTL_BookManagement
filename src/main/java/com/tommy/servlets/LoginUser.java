@@ -15,94 +15,85 @@ public class LoginUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        HttpSession s = request.getSession();
-        WebUser wu = (WebUser) s.getAttribute("authorized_user");
+		HttpSession s = request.getSession();
+		WebUser wu = (WebUser) s.getAttribute("authorized_user");
 
-        if (wu == null || wu.getUid().equals("") || wu.getUid() == null || wu.getAuthLevel() < 1) {
-            String uid = "";
-            String pwd = "";
+		if (wu == null || wu.getUid().equals("") || wu.getUid() == null || wu.getAuthLevel() < 1) {
+			String uid = "";
+			String pwd = "";
 
-            if (request.getParameter("username") != null)
-                uid = request.getParameter("username");
+			if (request.getParameter("username") != null)
+				uid = request.getParameter("username");
 
-            if (request.getParameter("password") != null)
-                pwd = request.getParameter("password");
+			if (request.getParameter("password") != null)
+				pwd = request.getParameter("password");
 
-            if ((wu == null || wu.getUid().equals("")  || wu.getAuthLevel() < 1 || wu.getUid() == null)
-                    && (uid != "" && pwd != "")) {
-                if (getServletConfig().getServletContext().getAttribute("BookDBManager") != null)
-                {
-                    DBManager dbm = (DBManager)getServletConfig().getServletContext().getAttribute("BookDBManager");
+			if ((wu == null || wu.getUid().equals("") || wu.getAuthLevel() < 1 || wu.getUid() == null)
+					&& (uid != "" && pwd != "")) {
+				if (getServletConfig().getServletContext().getAttribute("BookDBManager") != null) {
+					DBManager dbm = (DBManager) getServletConfig().getServletContext().getAttribute("BookDBManager");
 
-                    try {
-                        if (!dbm.isConnected())
-                        {
-                            if (!dbm.openConnection())
-                                throw new IOException("Could not connect to database and open connection");
-                        }
-                        String query = DBWorldQueries.getWebUserByUsernameAndPassword(uid, pwd);
-                        ResultSet rs = dbm.ExecuteResultSet(query);
-                        while (rs.next())
-                        {
-                            wu = new WebUser();
+					try {
+						if (!dbm.isConnected()) {
+							if (!dbm.openConnection())
+								throw new IOException("Could not connect to database and open connection");
+						}
+						String query = DBWorldQueries.getWebUserByUsernameAndPassword(uid, pwd);
+						ResultSet rs = dbm.ExecuteResultSet(query);
+						while (rs.next()) {
+							wu = new WebUser();
 
-                            wu.setUid(rs.getString("uid"));
-                            wu.setPwd(rs.getString("password"));
-                            wu.setAuthLevel(rs.getInt("authLevel"));
+							wu.setUid(rs.getString("uid"));
+							wu.setPwd(rs.getString("password"));
+							wu.setAuthLevel(rs.getInt("authLevel"));
 
-                            s.setAttribute("authorized_user", wu);
+							s.setAttribute("authorized_user", wu);
 
-                            if (request.getParameter("rememberMe") != null)
-                            {
-                                String rememberMe =  request.getParameter("rememberMe");
-                                if (rememberMe.equalsIgnoreCase("ON"))
-                                {
-                                    int CookieLife = 3600*24*7;
+							if (request.getParameter("rememberMe") != null) {
+								String rememberMe = request.getParameter("rememberMe");
+								if (rememberMe.equalsIgnoreCase("ON")) {
+									int CookieLife = 3600 * 24 * 7;
 
-                                    Cookie uidCookie = new Cookie("credentials_uid", uid);
-                                    Cookie pwdCookie = new Cookie("credentials_pwd", pwd);
+									Cookie uidCookie = new Cookie("credentials_uid", uid);
+									Cookie pwdCookie = new Cookie("credentials_pwd", pwd);
 
-                                    uidCookie.setMaxAge(CookieLife);
-                                    pwdCookie.setMaxAge(CookieLife);
+									uidCookie.setMaxAge(CookieLife);
+									pwdCookie.setMaxAge(CookieLife);
 
-                                    response.addCookie(uidCookie);
-                                    response.addCookie(pwdCookie);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                    	response.sendRedirect(getServletContext().getInitParameter("hostURL")
-                                + getServletContext().getContextPath() + "/welcome.jsp");
-                    	return;
-                    }
-                }
-                else
-                {
-                    response.sendRedirect(getServletContext().getContextPath() + "/login.jsp");
-                    return;
-                }
-            }
+									response.addCookie(uidCookie);
+									response.addCookie(pwdCookie);
+								}
+							}
+						}
+					} catch (Exception ex) {
+						response.sendRedirect(getServletContext().getInitParameter("hostURL")
+								+ getServletContext().getContextPath() + "/welcome.jsp");
+						return;
+					}
+				} else {
+					response.sendRedirect(getServletContext().getContextPath() + "/login.jsp");
+					return;
+				}
+			}
 
-            if (wu == null || wu.getUid().equals("") || wu.getUid() == null || wu.getAuthLevel() < 1)
-            {
-            	s.setAttribute("loginFail", "Incorrect username or password.");
-            	response.sendRedirect(getServletContext().getInitParameter("hostURL")
-                        + getServletContext().getContextPath() + "/login.jsp");
-            	return;
-            }
+			if (wu == null || wu.getUid().equals("") || wu.getUid() == null || wu.getAuthLevel() < 1) {
+				s.setAttribute("loginFail", "Incorrect username or password.");
+				response.sendRedirect(getServletContext().getInitParameter("hostURL")
+						+ getServletContext().getContextPath() + "/login.jsp");
+				return;
+			}
 
-        }
+		}
 
-		/*
-		 * String target = (request.getParameter("dest")==null ||
-		 * request.getParameter("dest")=="") ? "index.jsp" :
-		 * request.getParameter("dest");
-		 */
+		
+		String target = (request.getParameter("dest")==null ||
+		  request.getParameter("dest")=="") ? "index.jsp" :
+		  request.getParameter("dest");
+		 
 
-        response.sendRedirect("index.jsp");
-    }
+		response.sendRedirect(target);
+	}
 }

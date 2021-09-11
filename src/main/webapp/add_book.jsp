@@ -14,11 +14,19 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-<jsp:include page="../lib.jsp" />
+<jsp:include page="lib.jsp" />
 </head>
 <body class="login-container">
-	<jsp:include page="../navbar.jsp" />
+	<jsp:include page="navbar.jsp" />
 	<div class="page">
+		<c:if test="${sessionScope.authorized_user == null}">
+			<c:redirect
+				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp?dest=add_book.jsp" />
+		</c:if>
+		<c:if test="${sessionScope.cateData == null}">
+			<c:redirect
+				url="${initParam.hostURL}${pageContext.request.contextPath}/getcategoryname.do" />
+		</c:if>
 		<!-- Page container -->
 		<div class="page-container">
 
@@ -44,7 +52,7 @@
 						<div class="panel-body">
 							<form class="form-horizontal form-validate-jquery" action="#">
 								<fieldset class="content-group">
-									<legend class="text-bold">#ID:123</legend>
+									<legend class="text-bold">#Book Info</legend>
 
 									<!-- Book Info -->
 									<div class="form-group">
@@ -87,11 +95,9 @@
 										<div class="col-lg-3">
 											<select class="bootstrap-select" multiple="multiple"
 												data-width="100%">
-												<option value="AK">Alaska</option>
-												<option value="HI">Hawaii</option>
-												<option value="CA">California</option>
-												<option value="NV">Nevada</option>
-												<option value="OR">Oregon</option>
+												<c:forEach items="${sessionScope.cateData}" var="cName" varStatus="iterationCount">
+													<option value="${iterationCount.count}">${cName}</option>
+												</c:forEach>
 											</select>
 										</div>
 										<label class="control-label col-md-2 col-md-offset-1">Price<span
@@ -140,7 +146,7 @@
 
 		</div>
 		<!-- /page container -->
-		<jsp:include page="../footer.jsp" />
+		<jsp:include page="footer.jsp" />
 	</div>
 </body>
 </html>
