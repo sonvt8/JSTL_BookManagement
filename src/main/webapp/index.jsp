@@ -2,8 +2,7 @@
 	import="com.tommy.dbmodels.*
             , com.tommy.helpers.*
             , java.sql.*"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -20,20 +19,6 @@
 <body class="login-container">
 	<jsp:include page="navbar.jsp" />
 	<div class="page">
-		<c:if test="${sessionScope.deleteOk != null}">
-			<script type="text/javascript">
-				alert('OK');
-				$(function() {
-				var successMessage = '<%=request.getSession().getAttribute("deleteOk")%>';
-					new PNotify({
-						title : 'Success Delete',
-						text : successMessage,
-						addclass : 'bg-success'
-					});
-				});
-				<%request.getSession().removeAttribute("deleteOk");%>
-			</script>
-		</c:if>
 		<c:if test="${sessionScope.authorized_user == null}">
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp" />
@@ -50,6 +35,10 @@
 						onclick="window.location.href='${initParam.hostURL}${pageContext.request.contextPath}/add_book.jsp';"
 						type="button" class="btn bg-teal-400 btn-labeled">
 						<b><i class="icon-book"></i></b>New Book
+					</button>
+					<button type="button" class="btn btn-success btn-sm noty-runner"
+						data-layout="topRight" data-type="success">
+						Launch <i class="icon-play3 position-right"></i>
 					</button>
 				</div>
 			</div>
@@ -115,18 +104,48 @@
 			</tbody>
 		</table>
 		<jsp:include page="footer.jsp" />
-		<script type="text/javascript">
-				alert('OK');
+		<c:if test="${sessionScope.loginFail != null}">
+			<script type="text/javascript">
 				$(function() {
-				var successMessage = '<%=request.getSession().getAttribute("deleteOk")%>';
-				new PNotify({
-					title : 'Success Delete',
-					text : successMessage,
-					addclass : 'bg-success',
-					show_stack_bottom_right('danger')
+				var errorMessage = '<%=request.getSession().getAttribute("loginFail")%>';
+					new PNotify({
+						title : 'Login Fail!',
+						text : errorMessage,
+						addclass : 'bg-danger'
+					});
 				});
-			});	
-		</script>
+			<%request.getSession().removeAttribute("loginFail");%>
+				
+			</script>
+		</c:if>
+		<c:choose>
+			<c:when test="${sessionScope.addOk != null}">
+				<script type="text/javascript">
+					$(function() {
+						var addMessage = '<%=request.getSession().getAttribute("addOk")%>';
+							new PNotify({
+					            title: 'Insert Book',
+					            text: addMessage,
+					            addclass: 'bg-success'
+					        });
+					});
+					<%request.getSession().removeAttribute("addOk");%>
+				</script>
+			</c:when>
+			<c:when test="${sessionScope.deleteOk != null}">
+				<script type="text/javascript">
+					$(function() {
+						var deleteMessage = '<%=request.getSession().getAttribute("deleteOk")%>';
+						new PNotify({
+							title : 'Delete Book',
+							text : deleteMessage,
+							addclass : 'bg-success'
+						});
+					});
+					<%request.getSession().removeAttribute("deleteOk");%>
+				</script>
+			</c:when>
+		</c:choose>
 	</div>
 </body>
 </html>

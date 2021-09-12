@@ -150,7 +150,7 @@ public class BookController extends HttpServlet {
 						part.write(getServletContext().getInitParameter("uploadPath") + fileName);
 					}
 					
-					s.setAttribute("deleteOk", "Book has been remvoved successfully!");
+					s.setAttribute("addOk", "Book has been added successfully!");
 				} catch (Exception ex) {
 					throw new IOException("Query could not be executed to insert a new book");
 				}
@@ -177,6 +177,8 @@ public class BookController extends HttpServlet {
 	}
 
 	private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession s = request.getSession();
+		
 		try {
 			String bookId = request.getParameter("bookId");
 
@@ -192,11 +194,11 @@ public class BookController extends HttpServlet {
 					String query = DBBookQueries.deleteBook(bookId);
 
 					dbm.ExecuteNonQuery(query);
+					s.setAttribute("deleteOk", "Book has been removed successfully!");
 				} catch (Exception ex) {
 					throw new IOException("Query could not be executed to insert a new city");
 				}
 
-				HttpSession s = request.getSession();
 				s.setAttribute("listBooks", null);
 
 				response.sendRedirect(getServletContext().getInitParameter("hostURL")

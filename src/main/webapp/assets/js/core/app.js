@@ -28,8 +28,7 @@ $(function() {
     // Content area height
     //
     // ========================================
-
-
+    
     // Calculate min height
     function containerHeight() {
         var availableHeight = $(window).height() - $('.page-container').offset().top - $('.navbar-fixed-bottom').outerHeight();
@@ -39,8 +38,6 @@ $(function() {
 
     // Initialize
     containerHeight();
-
-
 
 
     // ========================================

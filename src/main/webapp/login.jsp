@@ -93,13 +93,14 @@
 			<script type="text/javascript">
 				$(function() {
 				var errorMessage = '<%=request.getSession().getAttribute("loginFail")%>';
-						new PNotify({
-							title : 'Login Fail!',
-							text : errorMessage,
-							addclass : 'bg-danger'
-						});
+					new PNotify({
+						title : 'Login Fail!',
+						text : errorMessage,
+						addclass : 'bg-danger'
 					});
-				<%request.getSession().removeAttribute("loginFail");%>
+				});
+			<%request.getSession().removeAttribute("loginFail");%>
+				
 			</script>
 		</c:if>
 	</div>

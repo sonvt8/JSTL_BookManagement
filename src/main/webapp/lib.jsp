@@ -29,6 +29,12 @@
 	src="assets/js/plugins/notifications/pnotify.min.js"></script>
 <script type="text/javascript"
 	src="assets/js/pages/components_notifications_pnotify.js"></script>
+<script type="text/javascript"
+	src="assets/js/plugins/notifications/noty.min.js"></script>
+<script type="text/javascript"
+	src="assets/js/plugins/notifications/jgrowl.min.js"></script>
+<script type="text/javascript"
+	src="assets/js/pages/components_notifications_other.js"></script>
 
 <!-- Multiselect -->
 <script type="text/javascript"
@@ -57,5 +63,5 @@
 <script type="text/javascript" src="assets/js/pages/login_validation.js"></script>
 
 <!-- General -->
-<script type="text/javascript" src="assets/js/core/app.js"></script>
+<!-- <script type="text/javascript" src="assets/js/core/app.js"></script> -->
 <script type="text/javascript" src="assets/js/plugins/ui/ripple.min.js"></script>
