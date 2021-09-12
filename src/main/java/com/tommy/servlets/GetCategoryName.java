@@ -66,6 +66,15 @@ public class GetCategoryName extends HttpServlet {
             {
                 throw new IOException("Query could not be executed to get category name");
             }
+            
+            String head = request.getParameter("head");
+
+            if(head.equalsIgnoreCase("updated")) {
+
+            	response.sendRedirect(getServletContext().getInitParameter("hostURL")
+                        + getServletContext().getContextPath() + "/update_book.jsp");
+            	return;
+            }
             response.sendRedirect(getServletContext().getInitParameter("hostURL")
                     + getServletContext().getContextPath() + "/add_book.jsp");
         }

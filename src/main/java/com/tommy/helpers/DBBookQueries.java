@@ -29,6 +29,20 @@ public class DBBookQueries {
     			);
     }
     
+    public static String updateBook(Book b) {
+        return String.format(
+        		"UPDATE Books SET Title='%s',Author='%s',Price='%s',Released='%s',Quantity='%d',Description='%s',CategoryId='%d' WHERE id =%d"
+                , b.getTitle()
+                , b.getAuthor()
+                , b.getPrice()
+                , b.getReleased()
+                , b.getQuantity()
+                , b.getDescription()
+                , b.getCateId()
+                , b.getId()
+        		);
+    }
+    
     public static String deleteBook(String bookId) {
         return "delete from Books where id=" + bookId;
     }

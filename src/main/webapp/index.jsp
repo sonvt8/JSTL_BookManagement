@@ -170,8 +170,20 @@
 						addclass : 'bg-success'
 					});
 				});
-			<%request.getSession().removeAttribute("deleteOk");%>
-				
+				<%request.getSession().removeAttribute("deleteOk");%>
+			</script>
+		</c:when>
+		<c:when test="${sessionScope.updateOk != null}">
+			<script type="text/javascript">
+					$(function() {
+						var updateMessage = '<%=request.getSession().getAttribute("updateOk")%>';
+					new PNotify({
+						title : 'Update Book',
+						text : updateMessage,
+						addclass : 'bg-success'
+					});
+				});
+				<%request.getSession().removeAttribute("updateOk");%>
 			</script>
 		</c:when>
 	</c:choose>

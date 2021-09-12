@@ -205,6 +205,7 @@ public class BookController extends HttpServlet {
 			} catch (Exception ex) {
 				throw new IOException("Query could not be executed to get the city with given id");
 			}
+
 			response.sendRedirect(getServletContext().getInitParameter("hostURL") + getServletContext().getContextPath()
 					+ "/update_book.jsp");
 		} else {
@@ -214,7 +215,66 @@ public class BookController extends HttpServlet {
 	}
 
 	private void updateBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("UPDATE BOOK");
+		String title = request.getParameter("title");
+		String author = request.getParameter("author");
+		String released = request.getParameter("date_iso");
+		String quantity = request.getParameter("digits");
+		String category = request.getParameter("cateName");
+		String price = request.getParameter("numbers");
+		String description = request.getParameter("description");
+		
+        try {
+            int id = Integer.parseInt(request.getParameter("bookId"));
+
+            Book b = new Book();
+            
+            b.setId(id);
+			b.setTitle(title);
+			b.setAuthor(author);
+			b.setPrice(price);
+			b.setQuantity(Integer.parseInt(quantity));
+			b.setDescription(description);
+			b.setReleased(released);
+			b.setCateId(getCategoryId(category));
+
+            if (getServletConfig().getServletContext().getAttribute("BookDBManager") != null)
+            {
+                DBManager dbm = (DBManager)getServletConfig().getServletContext().getAttribute("BookDBManager");
+
+                try {
+                    if (!dbm.isConnected())
+                    {
+                        if (!dbm.openConnection())
+                            throw new IOException("Could not connect to database and open connection");
+                    }
+
+                    String query = DBBookQueries.updateBook(b);
+
+                    dbm.ExecuteNonQuery(query);
+                }
+                catch (Exception ex)
+                {
+                    throw new IOException("Query could not be executed to insert a new city");
+                }
+
+                HttpSession s = request.getSession();
+                s.setAttribute("listBooks", null);
+                s.setAttribute("bookInfo", null);
+                s.setAttribute("updateOk", "Book has been updated successfully!");
+
+                response.sendRedirect(getServletContext().getInitParameter("hostURL") +
+                        getServletContext().getContextPath() + "/index.jsp");
+            }
+            else
+            {
+                response.sendRedirect(getServletContext().getInitParameter("hostURL")
+                        + getServletContext().getContextPath() + "login.jsp");
+            }
+        } catch (Exception ex)
+        {
+            response.sendRedirect(getServletContext().getInitParameter("hostURL")
+                    + getServletContext().getContextPath() + "/errorHandler.jsp");
+        }
 	}
 
 	private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws IOException {

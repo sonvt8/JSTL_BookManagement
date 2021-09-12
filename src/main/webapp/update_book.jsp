@@ -23,10 +23,15 @@
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp" />
 		</c:if>
+		<c:if test="${sessionScope.cateData == null}">
+			<c:redirect
+				url="${initParam.hostURL}${pageContext.request.contextPath}/getcategoryname.do?head=updated" />
+		</c:if>
 		<c:if test="${sessionScope.bookInfo == null}">
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/index.jsp" />
 		</c:if>
+
 		<!-- Page container -->
 		<div class="page-container">
 
@@ -49,8 +54,10 @@
 								<div class="panel-body">
 									<div class="thumb">
 										<a href="assets/images/placeholder.jpg" data-popup="lightbox">
-											<img src="assets/images/placeholder.jpg" alt=""> <span
-											class="zoom-image"><i class="icon-plus2"></i></span>
+											<img
+											src="${initParam.hostURL}${pageContext.request.contextPath}/FileDisplayServlet/${bookInfo.imageUrl}"
+											alt=""> <span class="zoom-image"><i
+												class="icon-plus2"></i></span>
 										</a>
 									</div>
 
@@ -95,7 +102,8 @@
 													class="text-danger">*</span></label>
 												<div class="col-lg-9">
 													<input type="text" name="title" class="form-control"
-														required="required" placeholder="Text input validation">
+														required="required" placeholder="Text input validation"
+														value="${bookInfo.title}">
 												</div>
 											</div>
 											<div class="form-group">
@@ -103,7 +111,8 @@
 													class="text-danger">*</span></label>
 												<div class="col-lg-9">
 													<input type="text" name="author" class="form-control"
-														required="required" placeholder="Text input validation">
+														required="required" placeholder="Text input validation"
+														value="${bookInfo.author}">
 												</div>
 											</div>
 											<div class="form-group">
@@ -113,7 +122,8 @@
 												<div class="col-lg-3">
 													<input type="text" name="date_iso" class="form-control"
 														required="required"
-														placeholder="YYYY/MM/DD or any other ISO date format">
+														placeholder="YYYY/MM/DD or any other ISO date format"
+														value="${bookInfo.released}">
 												</div>
 
 
@@ -121,14 +131,15 @@
 													class="text-danger">*</span></label>
 												<div class="col-md-2">
 													<input type="text" name="digits" class="form-control"
-														required="required" placeholder="Enter digits only">
+														required="required" placeholder="Enter digits only"
+														value="${bookInfo.quantity}">
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="control-label col-lg-3">Category<span
 													class="text-danger">*</span></label>
 												<div class="col-lg-3">
-													<select name="cateName" class="bootstrap-select"
+													<select id="category" name="cateName" class="bootstrap-select"
 														data-width="100%">
 														<c:forEach items="${sessionScope.cateData}" var="cName">
 															<option value="${cName}">${cName}</option>
@@ -140,7 +151,8 @@
 												<div class="col-md-2">
 													<input type="text" name="numbers" class="form-control"
 														required="required"
-														placeholder="Enter decimal number only">
+														placeholder="Enter decimal number only"
+														value="${bookInfo.price}">
 												</div>
 											</div>
 											<div class="form-group">
@@ -157,7 +169,7 @@
 												<div class="col-lg-9">
 													<textarea rows="5" cols="5" name="description"
 														class="form-control" required="required"
-														placeholder="Default textarea"></textarea>
+														placeholder="Default textarea">${bookInfo.description}"</textarea>
 												</div>
 											</div>
 											<!-- /Book Info -->
@@ -188,24 +200,35 @@
 		<!-- /page container -->
 		<jsp:include page="footer.jsp" />
 	</div>
-    	<script>
-            $(function () { /* to make sure the script runs after page load */
-                $('.extra-text').each(function (event) { /* select all divs with the item class */
-                    var max_length = 150; /* set the max content length before a read more link will be added */
-                    if ($(this).html().length > max_length) { /* check for content length */
-                        var short_content = $(this).html().substr(0, max_length); /* split the content in two parts */
-                        var long_content = $(this).html().substr(max_length);
-                        $(this).html(short_content +
-                            '<a href="#" class="read_more"><br/>Read More</a>' +
-                            '<span class="more_text" style="display:none;">' + long_content + '</span>'); /* Alter the html to allow the read more functionality */
-                        $(this).find('a.read_more').click(function (event) { /* find the a.read_more element within the new html and bind the following code to it */
-                            event.preventDefault(); /* prevent the a from changing the url */
-                            $(this).hide(); /* hide the read more button */
-                            $(this).parents('.extra-text').find('.more_text').show(); /* show the .more_text span */
-                        });
-                    }
-                });
-            });
-        </script>
+	<script>
+		$(function() { /* to make sure the script runs after page load */
+			$('.extra-text')
+					.each(
+							function(event) { /* select all divs with the item class */
+								var max_length = 150; /* set the max content length before a read more link will be added */
+								if ($(this).html().length > max_length) { /* check for content length */
+									var short_content = $(this).html().substr(
+											0, max_length); /* split the content in two parts */
+									var long_content = $(this).html().substr(
+											max_length);
+									$(this)
+											.html(
+													short_content
+															+ '<a href="#" class="read_more"><br/>Read More</a>'
+															+ '<span class="more_text" style="display:none;">'
+															+ long_content
+															+ '</span>'); /* Alter the html to allow the read more functionality */
+									$(this).find('a.read_more').click(
+											function(event) { /* find the a.read_more element within the new html and bind the following code to it */
+												event.preventDefault(); /* prevent the a from changing the url */
+												$(this).hide(); /* hide the read more button */
+												$(this).parents('.extra-text')
+														.find('.more_text')
+														.show(); /* show the .more_text span */
+											});
+								}
+							});
+		});
+	</script>
 </body>
 </html>
