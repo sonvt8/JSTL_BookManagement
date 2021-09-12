@@ -21,11 +21,11 @@
 	<div class="page">
 		<c:if test="${sessionScope.authorized_user == null}">
 			<c:redirect
-				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp?dest=add_book.jsp" />
+				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp" />
 		</c:if>
-		<c:if test="${sessionScope.cateData == null}">
+		<c:if test="${sessionScope.bookInfo == null}">
 			<c:redirect
-				url="${initParam.hostURL}${pageContext.request.contextPath}/getcategoryname.do" />
+				url="${initParam.hostURL}${pageContext.request.contextPath}/index.jsp" />
 		</c:if>
 		<!-- Page container -->
 		<div class="page-container">

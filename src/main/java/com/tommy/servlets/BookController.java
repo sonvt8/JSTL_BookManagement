@@ -88,8 +88,9 @@ public class BookController extends HttpServlet {
 					b.setQuantity(rs.getInt("Quantity"));
 					b.setReleased(rs.getString("Released"));
 					b.setCateId(rs.getInt("CategoryId"));
-					b.setImageUrl((rs.getString("ImageUrl") == null || rs.getString("ImageUrl").equals("")) ?
-                            "default_book.jpg" : rs.getString("ImageUrl"));
+					b.setImageUrl((rs.getString("ImageUrl") == null || rs.getString("ImageUrl").equals(""))
+							? "default_book.jpg"
+							: rs.getString("ImageUrl"));
 					b.setDescription(rs.getString("Description"));
 					listBooks.add(b);
 				}
@@ -110,10 +111,10 @@ public class BookController extends HttpServlet {
 		String fileName = "";
 		HttpSession s = request.getSession();
 		Part filePart = request.getPart("photo");
-		
-        if(filePart != null && filePart.getSize() > 0){
-    		fileName = filePart.getSubmittedFileName();
-        }
+
+		if (filePart != null && filePart.getSize() > 0) {
+			fileName = filePart.getSubmittedFileName();
+		}
 
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
@@ -149,12 +150,12 @@ public class BookController extends HttpServlet {
 
 					// Upload Image
 					filePart.write(getServletContext().getInitParameter("uploadPath") + fileName);
-				
+
 					s.setAttribute("addOk", "Book has been added successfully!");
 				} catch (Exception ex) {
 					throw new IOException("Query could not be executed to insert a new book");
 				}
-				
+
 				s.setAttribute("listBooks", null);
 				response.sendRedirect(getServletContext().getInitParameter("hostURL")
 						+ getServletContext().getContextPath() + "/index.jsp");
@@ -169,7 +170,47 @@ public class BookController extends HttpServlet {
 	}
 
 	private void loadBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("LOAD BOOK");
+		HttpSession s = request.getSession();
+		String bookId = request.getParameter("bookId");
+
+		if (getServletConfig().getServletContext().getAttribute("BookDBManager") != null) {
+			DBManager dbm = (DBManager) getServletConfig().getServletContext().getAttribute("BookDBManager");
+
+			try {
+				if (!dbm.isConnected()) {
+					if (!dbm.openConnection())
+						throw new IOException("Could not connect to database and open connection");
+				}
+
+				String query = DBBookQueries.loadBook(bookId);
+
+				Book b = new Book();
+
+				ResultSet rs = dbm.ExecuteResultSet(query);
+
+				while (rs.next()) {
+					b.setId(rs.getInt("Id"));
+					b.setTitle(rs.getString("Title"));
+					b.setAuthor(rs.getString("Author"));
+					b.setPrice(rs.getString("Price"));
+					b.setQuantity(rs.getInt("Quantity"));
+					b.setReleased(rs.getString("Released"));
+					b.setCateId(rs.getInt("CategoryId"));
+					b.setImageUrl((rs.getString("ImageUrl") == null || rs.getString("ImageUrl").equals(""))
+							? "default_book.jpg"
+							: rs.getString("ImageUrl"));
+					b.setDescription(rs.getString("Description"));
+				}
+				s.setAttribute("bookInfo", b);
+			} catch (Exception ex) {
+				throw new IOException("Query could not be executed to get the city with given id");
+			}
+			response.sendRedirect(getServletContext().getInitParameter("hostURL") + getServletContext().getContextPath()
+					+ "/update_book.jsp");
+		} else {
+			response.sendRedirect(getServletContext().getInitParameter("hostURL") + getServletContext().getContextPath()
+					+ "login.jsp");
+		}
 	}
 
 	private void updateBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -178,7 +219,7 @@ public class BookController extends HttpServlet {
 
 	private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession s = request.getSession();
-		
+
 		try {
 			String bookId = request.getParameter("bookId");
 

@@ -32,4 +32,8 @@ public class DBBookQueries {
     public static String deleteBook(String bookId) {
         return "delete from Books where id=" + bookId;
     }
+    
+    public static String loadBook(String bookId) {
+        return "select * from Books where id=" + bookId;
+    }
 }
