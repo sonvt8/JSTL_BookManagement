@@ -33,9 +33,6 @@ public class BookController extends HttpServlet {
 		case "DELETE":
 			deleteBook(request, response);
 			break;
-		case "LIST":
-			listBooks(request, response);
-			break;
 		case "LOAD":
 			loadBook(request, response);
 			break;
@@ -91,7 +88,8 @@ public class BookController extends HttpServlet {
 					b.setQuantity(rs.getInt("Quantity"));
 					b.setReleased(rs.getString("Released"));
 					b.setCateId(rs.getInt("CategoryId"));
-					b.setImageUrl(rs.getString("ImageUrl"));
+					b.setImageUrl((rs.getString("ImageUrl") == null || rs.getString("ImageUrl").equals("")) ?
+                            "default_book.jpg" : rs.getString("ImageUrl"));
 					b.setDescription(rs.getString("Description"));
 					listBooks.add(b);
 				}
@@ -109,8 +107,13 @@ public class BookController extends HttpServlet {
 
 	private void addBook(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+		String fileName = "";
 		HttpSession s = request.getSession();
 		Part filePart = request.getPart("photo");
+		
+        if(filePart != null && filePart.getSize() > 0){
+    		fileName = filePart.getSubmittedFileName();
+        }
 
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
@@ -118,7 +121,6 @@ public class BookController extends HttpServlet {
 		String quantity = request.getParameter("digits");
 		String category = request.getParameter("cateName");
 		String price = request.getParameter("numbers");
-		String fileName = filePart.getSubmittedFileName();
 		String description = request.getParameter("description");
 
 		try {
@@ -146,10 +148,8 @@ public class BookController extends HttpServlet {
 					dbm.ExecuteNonQuery(query);
 
 					// Upload Image
-					for (Part part : request.getParts()) {
-						part.write(getServletContext().getInitParameter("uploadPath") + fileName);
-					}
-					
+					filePart.write(getServletContext().getInitParameter("uploadPath") + fileName);
+				
 					s.setAttribute("addOk", "Book has been added successfully!");
 				} catch (Exception ex) {
 					throw new IOException("Query could not be executed to insert a new book");

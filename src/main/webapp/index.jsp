@@ -82,7 +82,8 @@
 						<td>${book.price}</td>
 						<td>${book.quantity}</td>
 						<td>${book.released}</td>
-						<td>${book.imageUrl}</td>
+						<td style="height: 30%; width: 30%;" align="center"><img style="display:block;" width="100%" height="100%"
+							src="${initParam.hostURL}${pageContext.request.contextPath}/FileDisplayServlet/${book.imageUrl}"></td>
 						<td>${book.description}</td>
 						<td class="text-center">
 							<ul class="icons-list">
@@ -135,14 +136,16 @@
 			<c:when test="${sessionScope.deleteOk != null}">
 				<script type="text/javascript">
 					$(function() {
-						var deleteMessage = '<%=request.getSession().getAttribute("deleteOk")%>';
+						var deleteMessage = '<%=request.getSession().getAttribute("deleteOk")%>
+					';
 						new PNotify({
 							title : 'Delete Book',
 							text : deleteMessage,
 							addclass : 'bg-success'
 						});
 					});
-					<%request.getSession().removeAttribute("deleteOk");%>
+				<%request.getSession().removeAttribute("deleteOk");%>
+					
 				</script>
 			</c:when>
 		</c:choose>
