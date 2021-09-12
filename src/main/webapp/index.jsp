@@ -30,11 +30,13 @@
 	<div class="page-header">
 		<div class="page-header-content">
 			<div class="page-title">
-				<button
-					onclick="window.location.href='${initParam.hostURL}${pageContext.request.contextPath}/add_book.jsp';"
-					type="button" class="btn bg-teal-400 btn-labeled">
-					<b><i class="icon-book"></i></b>New Book
-				</button>
+				<c:if test="${sessionScope.authorized_user.authLevel > 1}">
+					<button
+						onclick="window.location.href='${initParam.hostURL}${pageContext.request.contextPath}/add_book.jsp';"
+						type="button" class="btn bg-teal-400 btn-labeled">
+						<b><i class="icon-book"></i></b>New Book
+					</button>
+				</c:if>
 			</div>
 		</div>
 	</div>
@@ -73,8 +75,11 @@
 								<th style="width: 10px;">Released</th>
 								<th class="text-center" style="width: 50px;">Photo</th>
 								<th style="width: 100px; word-wrap: break-word">Description</th>
-								<th class="text-center" style="width: 30px;"><i
-									class="icon-menu-open2"></i></th>
+								<c:if test="${sessionScope.authorized_user.authLevel > 1}">
+									<th class="text-center" style="width: 30px;"><i
+										class="icon-menu-open2"></i></th>
+								</c:if>
+
 							</tr>
 						</thead>
 						<tbody>
@@ -102,21 +107,23 @@
 										style="display: block;" width="100%" height="100%"
 										src="${initParam.hostURL}${pageContext.request.contextPath}/FileDisplayServlet/${book.imageUrl}"></td>
 									<td>${book.description}</td>
-									<td class="text-center">
-										<ul class="icons-list">
-											<li class="dropup"><a href="#" class="dropdown-toggle"
-												data-toggle="dropdown"> <i class="icon-menu9"></i>
-											</a>
+									<c:if test="${sessionScope.authorized_user.authLevel > 1}">
+										<td class="text-center">
+											<ul class="icons-list">
+												<li class="dropup"><a href="#" class="dropdown-toggle"
+													data-toggle="dropdown"> <i class="icon-menu9"></i>
+												</a>
 
-												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="${updateBook}"><i
-															class="icon-pencil7"></i> Edit</a></li>
-													<li><a href="${deleteBook}"><i class="icon-trash"
-															onclick="if(!confirm('Are you sure you want to delete this city?')) return false;"></i>
-															Delete</a></li>
-												</ul></li>
-										</ul>
-									</td>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="${updateBook}"><i
+																class="icon-pencil7"></i> Edit</a></li>
+														<li><a href="${deleteBook}"><i class="icon-trash"
+																onclick="if(!confirm('Are you sure you want to delete this city?')) return false;"></i>
+																Delete</a></li>
+													</ul></li>
+											</ul>
+										</td>
+									</c:if>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -176,14 +183,16 @@
 		<c:when test="${sessionScope.updateOk != null}">
 			<script type="text/javascript">
 					$(function() {
-						var updateMessage = '<%=request.getSession().getAttribute("updateOk")%>';
+						var updateMessage = '<%=request.getSession().getAttribute("updateOk")%>
+				';
 					new PNotify({
 						title : 'Update Book',
 						text : updateMessage,
 						addclass : 'bg-success'
 					});
 				});
-				<%request.getSession().removeAttribute("updateOk");%>
+			<%request.getSession().removeAttribute("updateOk");%>
+				
 			</script>
 		</c:when>
 	</c:choose>

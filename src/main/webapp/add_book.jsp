@@ -23,6 +23,10 @@
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp?dest=add_book.jsp" />
 		</c:if>
+		<c:if test="${sessionScope.authorized_user.authLevel < 2}">
+			<c:redirect
+				url="${initParam.hostURL}${pageContext.request.contextPath}/index.jsp" />
+		</c:if>
 		<c:if test="${sessionScope.cateData == null}">
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/getcategoryname.do" />

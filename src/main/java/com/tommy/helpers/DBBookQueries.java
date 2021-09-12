@@ -17,7 +17,7 @@ public class DBBookQueries {
     
     public static String insertData(Book b) {
     	return String.format("INSERT INTO Books(Title,Author,Price,Released,Quantity,ImageUrl,Description,CategoryId)"
-    			+ " VALUES ('%s','%s','%s','%s','%d','%s','%s',%d)"
+    			+ " VALUES ('%s','%s','%s','%s',%d,'%s','%s',%d)"
                 , b.getTitle()
                 , b.getAuthor()
                 , b.getPrice()
@@ -31,7 +31,7 @@ public class DBBookQueries {
     
     public static String updateBook(Book b) {
         return String.format(
-        		"UPDATE Books SET Title='%s',Author='%s',Price='%s',Released='%s',Quantity='%d',Description='%s',CategoryId='%d', imageUrl='%s' WHERE id =%d"
+        		"UPDATE Books SET Title='%s',Author='%s',Price='%s',Released='%s',Quantity=%d,Description='%s',CategoryId=%d, imageUrl='%s' WHERE id =%d"
                 , b.getTitle()
                 , b.getAuthor()
                 , b.getPrice()

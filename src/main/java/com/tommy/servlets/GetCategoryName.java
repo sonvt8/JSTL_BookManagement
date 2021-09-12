@@ -69,8 +69,7 @@ public class GetCategoryName extends HttpServlet {
             
             String head = request.getParameter("head");
 
-            if(head.equalsIgnoreCase("updated")) {
-
+            if(head != null) {
             	response.sendRedirect(getServletContext().getInitParameter("hostURL")
                         + getServletContext().getContextPath() + "/update_book.jsp");
             	return;

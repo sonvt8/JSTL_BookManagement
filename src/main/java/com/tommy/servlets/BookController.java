@@ -152,6 +152,7 @@ public class BookController extends HttpServlet {
 					filePart.write(getServletContext().getInitParameter("uploadPath") + fileName);
 
 					s.setAttribute("addOk", "Book has been added successfully!");
+
 				} catch (Exception ex) {
 					throw new IOException("Query could not be executed to insert a new book");
 				}

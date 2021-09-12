@@ -23,6 +23,10 @@
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/login.jsp" />
 		</c:if>
+		<c:if test="${sessionScope.authorized_user.authLevel < 2}">
+			<c:redirect
+				url="${initParam.hostURL}${pageContext.request.contextPath}/index.jsp" />
+		</c:if>
 		<c:if test="${sessionScope.cateData == null}">
 			<c:redirect
 				url="${initParam.hostURL}${pageContext.request.contextPath}/getcategoryname.do?head=updated" />
@@ -139,8 +143,8 @@
 												<label class="control-label col-lg-3">Category<span
 													class="text-danger">*</span></label>
 												<div class="col-lg-3">
-													<select id="category" name="cateName" class="bootstrap-select"
-														data-width="100%">
+													<select id="category" name="cateName"
+														class="bootstrap-select" data-width="100%">
 														<c:forEach items="${sessionScope.cateData}" var="cName">
 															<option value="${cName}">${cName}</option>
 														</c:forEach>
