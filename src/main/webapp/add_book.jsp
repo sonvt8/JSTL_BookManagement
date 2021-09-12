@@ -51,7 +51,8 @@
 
 						<div class="panel-body">
 							<form class="form-horizontal form-validate-jquery" method="post"
-								action="${initParam.hostURL}${pageContext.request.contextPath}/bookcontroller.do" enctype="multipart/form-data">
+								action="${initParam.hostURL}${pageContext.request.contextPath}/bookcontroller.do"
+								enctype="multipart/form-data">
 								<input type="hidden" name="command" value="ADD" />
 								<fieldset class="content-group">
 									<legend class="text-bold">#Book Info</legend>
@@ -95,7 +96,8 @@
 										<label class="control-label col-lg-3">Category<span
 											class="text-danger">*</span></label>
 										<div class="col-lg-3">
-											<select name="cateName" class="bootstrap-select" data-width="100%">
+											<select name="cateName" class="bootstrap-select"
+												data-width="100%">
 												<c:forEach items="${sessionScope.cateData}" var="cName">
 													<option value="${cName}">${cName}</option>
 												</c:forEach>
@@ -111,9 +113,9 @@
 									<div class="form-group">
 										<label class="col-lg-3 control-label">Photo:</label>
 										<div class="col-lg-9">
-											<input name="photo" type="file" class="file-styled"> <span
-												class="help-block">Accepted formats: gif, png, jpg.
-												Max file size 2Mb</span>
+											<input name="photo" type="file" class="file-styled">
+											<span class="help-block">Accepted formats: gif, png,
+												jpg. Max file size 2Mb</span>
 										</div>
 									</div>
 									<div class="form-group">
