@@ -214,7 +214,10 @@ public class BookController extends HttpServlet {
 		}
 	}
 
-	private void updateBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void updateBook(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		HttpSession s = request.getSession();
+	
+		String fileName = "";
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
 		String released = request.getParameter("date_iso");
@@ -222,6 +225,8 @@ public class BookController extends HttpServlet {
 		String category = request.getParameter("cateName");
 		String price = request.getParameter("numbers");
 		String description = request.getParameter("description");
+		
+		Part filePart = request.getPart("photo");
 		
         try {
             int id = Integer.parseInt(request.getParameter("bookId"));
@@ -236,6 +241,12 @@ public class BookController extends HttpServlet {
 			b.setDescription(description);
 			b.setReleased(released);
 			b.setCateId(getCategoryId(category));
+			if (filePart != null && filePart.getSize() > 0) {
+				fileName = filePart.getSubmittedFileName();
+				// Upload Image
+				filePart.write(getServletContext().getInitParameter("uploadPath") + fileName);
+				b.setImageUrl(fileName);
+			}
 
             if (getServletConfig().getServletContext().getAttribute("BookDBManager") != null)
             {
@@ -257,7 +268,6 @@ public class BookController extends HttpServlet {
                     throw new IOException("Query could not be executed to insert a new city");
                 }
 
-                HttpSession s = request.getSession();
                 s.setAttribute("listBooks", null);
                 s.setAttribute("bookInfo", null);
                 s.setAttribute("updateOk", "Book has been updated successfully!");

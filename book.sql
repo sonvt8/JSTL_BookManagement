@@ -13,7 +13,7 @@ CREATE TABLE Books (
 	Title nvarchar(max) NOT NULL,
 	Author nvarchar(max) NOT NULL,
 	Price varchar(5) NOT NULL,
-	Released date NULL,
+	Released varchar(20) NULL,
 	Quantity int NOT NULL,
 	ImageUrl nvarchar (max) NOT NULL,
 	Description nvarchar(max) NOT NULL,

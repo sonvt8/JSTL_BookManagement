@@ -31,7 +31,7 @@ public class DBBookQueries {
     
     public static String updateBook(Book b) {
         return String.format(
-        		"UPDATE Books SET Title='%s',Author='%s',Price='%s',Released='%s',Quantity='%d',Description='%s',CategoryId='%d' WHERE id =%d"
+        		"UPDATE Books SET Title='%s',Author='%s',Price='%s',Released='%s',Quantity='%d',Description='%s',CategoryId='%d', imageUrl='%s' WHERE id =%d"
                 , b.getTitle()
                 , b.getAuthor()
                 , b.getPrice()
@@ -39,6 +39,7 @@ public class DBBookQueries {
                 , b.getQuantity()
                 , b.getDescription()
                 , b.getCateId()
+                , b.getImageUrl()
                 , b.getId()
         		);
     }
