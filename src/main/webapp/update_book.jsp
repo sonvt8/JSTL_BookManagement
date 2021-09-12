@@ -54,16 +54,8 @@
 										</a>
 									</div>
 
-									<div class="blog-preview">
-										<p>One morning, when Gregor Samsa woke from troubled
-											dreams, he found himself transformed in his bed into a
-											horrible vermin. He lay on his armour-like back, and if he
-											lifted his head a little he could see his brown belly,
-											slightly domed and divided by arches into stiff sections.</p>
-
-										The bedding was hardly able to cover it and seemed ready to
-										slide off any moment. The bedding was hardly able to cover it
-										and seemed ready to slide off any moment <a href="#">[...]</a>
+									<div class="blog-preview extra-text">
+										<p>${bookInfo.description}</p>
 									</div>
 								</div>
 							</div>
@@ -90,9 +82,12 @@
 										method="post"
 										action="${initParam.hostURL}${pageContext.request.contextPath}/bookcontroller.do"
 										enctype="multipart/form-data">
-										<input type="hidden" name="command" value="UPDATE" />
+
+										<input type="hidden" name="command" value="UPDATE" /> <input
+											type="hidden" name="bookId" value="${bookInfo.id}" />
+
 										<fieldset class="content-group">
-											<legend class="text-bold">#ID:112312313</legend>
+											<legend class="text-bold">#ID:${bookInfo.id}</legend>
 
 											<!-- Book Info -->
 											<div class="form-group">
@@ -193,5 +188,24 @@
 		<!-- /page container -->
 		<jsp:include page="footer.jsp" />
 	</div>
+    	<script>
+            $(function () { /* to make sure the script runs after page load */
+                $('.extra-text').each(function (event) { /* select all divs with the item class */
+                    var max_length = 150; /* set the max content length before a read more link will be added */
+                    if ($(this).html().length > max_length) { /* check for content length */
+                        var short_content = $(this).html().substr(0, max_length); /* split the content in two parts */
+                        var long_content = $(this).html().substr(max_length);
+                        $(this).html(short_content +
+                            '<a href="#" class="read_more"><br/>Read More</a>' +
+                            '<span class="more_text" style="display:none;">' + long_content + '</span>'); /* Alter the html to allow the read more functionality */
+                        $(this).find('a.read_more').click(function (event) { /* find the a.read_more element within the new html and bind the following code to it */
+                            event.preventDefault(); /* prevent the a from changing the url */
+                            $(this).hide(); /* hide the read more button */
+                            $(this).parents('.extra-text').find('.more_text').show(); /* show the .more_text span */
+                        });
+                    }
+                });
+            });
+        </script>
 </body>
 </html>
